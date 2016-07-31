@@ -14,7 +14,7 @@ namespace NSpec.Domain.Formatters
         {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
-            XmlTextWriter xml = new XmlTextWriter(sw);
+            XmlWriter xml = XmlWriter.Create(sw);
 
             xml.WriteStartElement("Contexts");
             xml.WriteAttributeString("TotalSpecs", contexts.Examples().Count().ToString());
@@ -30,7 +30,7 @@ namespace NSpec.Domain.Formatters
 
         public IDictionary<string, string> Options { get; set; }
 
-        void BuildContext(XmlTextWriter xml, Context context)
+        void BuildContext(XmlWriter xml, Context context)
         {
             xml.WriteStartElement("Context");
             xml.WriteAttributeString("Name", context.Name);
@@ -50,7 +50,7 @@ namespace NSpec.Domain.Formatters
             xml.WriteEndElement();
         }
 
-        void BuildSpec(XmlTextWriter xml, ExampleBase example)
+        void BuildSpec(XmlWriter xml, ExampleBase example)
         {
             xml.WriteStartElement("Spec");
             xml.WriteAttributeString("Name", example.Spec);

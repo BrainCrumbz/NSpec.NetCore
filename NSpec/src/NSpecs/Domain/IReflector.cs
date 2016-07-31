@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace NSpec.Domain
 {
@@ -14,7 +15,9 @@ namespace NSpec.Domain
 
         public Type[] GetTypesFrom()
         {
-            return Assembly.LoadFrom(dll).GetTypes();
+            var assemblyName = AssemblyLoadContext.GetAssemblyName(dll);
+
+            return Assembly.Load(assemblyName).GetTypes();
         }
 
         public Type[] GetTypesFrom(Assembly assembly)

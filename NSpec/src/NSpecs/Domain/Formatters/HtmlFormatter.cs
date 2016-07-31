@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Web;
 
 namespace NSpec.Domain.Formatters
@@ -88,7 +89,7 @@ namespace NSpec.Domain.Formatters
             {
                 sb.AppendLine("<span class=\"spec-failed\">&lArr; Failed</span>");
                 sb.Append("<div class=\"spec-exception\"><code>");
-                sb.Append(HttpUtility.HtmlEncode(example.Exception.ToString()));
+                sb.Append(HtmlEncoder.Default.Encode(example.Exception.ToString()));
                 sb.AppendLine("</code></div>");
             }
             else if (example.Pending)

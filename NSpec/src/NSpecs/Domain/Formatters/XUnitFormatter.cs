@@ -14,7 +14,7 @@ namespace NSpec.Domain.Formatters
         {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
-            XmlTextWriter xml = new XmlTextWriter(sw);
+            XmlWriter xml = XmlWriter.Create(sw);
 
             xml.WriteStartElement("testsuites");
             xml.WriteAttributeString("tests", contexts.Examples().Count().ToString());
@@ -28,8 +28,9 @@ namespace NSpec.Domain.Formatters
             bool didWriteToFile = false;
             if (Options.ContainsKey("file"))
             {
-                var filePath = Path.Combine(Environment.CurrentDirectory, Options["file"]);
-                using (StreamWriter ostream = new StreamWriter(filePath, false))
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), Options["file"]);
+
+                using (StreamWriter ostream = File.CreateText(filePath))
                 {
                     ostream.WriteLine(results);
                     Console.WriteLine("Test results published to: {0}".With(filePath));
@@ -45,7 +46,7 @@ namespace NSpec.Domain.Formatters
 
         public IDictionary<string, string> Options { get; set; }
 
-        void BuildContext(XmlTextWriter xml, Context context)
+        void BuildContext(XmlWriter xml, Context context)
         {
             if (context.Level == 1)
             {
@@ -65,7 +66,7 @@ namespace NSpec.Domain.Formatters
             }
         }
 
-        void BuildSpec(XmlTextWriter xml, ExampleBase example)
+        void BuildSpec(XmlWriter xml, ExampleBase example)
         {
             xml.WriteStartElement("testcase");
 
