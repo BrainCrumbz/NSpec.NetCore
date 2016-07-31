@@ -8,7 +8,7 @@
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>525f4324-139e-4b18-ab97-76c93baad11f</ProjectGuid>
-    <RootNamespace>NSpecs</RootNamespace>
+    <RootNamespace>NSpec</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
