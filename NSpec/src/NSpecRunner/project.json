@@ -1,6 +1,12 @@
 ﻿{
   "version": "1.0.0-*",
+
   "buildOptions": {
+    "compile": {
+      "includeFiles": [
+        "../../SharedAssemblyInfo.cs"
+      ]
+    },
     "emitEntryPoint": true
   },
 
