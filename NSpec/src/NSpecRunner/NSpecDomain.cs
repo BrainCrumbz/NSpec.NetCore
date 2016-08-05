@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NSpec.Domain;
+using System.Runtime.Loader;
 
 namespace NSpecRunner
 {
@@ -61,7 +62,12 @@ namespace NSpecRunner
 
             var missing = Path.Combine(Path.GetDirectoryName(dll), name);
 
-            if (File.Exists(missing)) return Assembly.LoadFrom(missing);
+            if (File.Exists(missing))
+            {
+                var assemblyName = AssemblyLoadContext.GetAssemblyName(missing);
+
+                return Assembly.Load(assemblyName);
+            }
 
             return null;
         }
