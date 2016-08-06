@@ -1,4 +1,7 @@
 Latest commit merged from NSpec:
 
-b70e989a7a0d11f0f0bcef9399e746362f1e22e6
-chore(nspec): remove duplicate file from project root
+commit 8511fefbdea642a18b15357d9f18385cb925d435
+Author: Giuseppe Piscopo <g.piscopo@braincrumbz.com>
+Date:   Sat Aug 6 15:39:20 2016 +0200
+
+    chore(nspecSpecs): delete obsolete file not included in project
