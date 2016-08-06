@@ -1,0 +1,4 @@
+Latest commit merged from NSpec:
+
+b70e989a7a0d11f0f0bcef9399e746362f1e22e6
+chore(nspec): remove duplicate file from project root
