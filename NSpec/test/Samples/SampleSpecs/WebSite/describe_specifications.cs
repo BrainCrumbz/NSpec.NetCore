@@ -33,11 +33,11 @@ describe specifications
     enumerable should not contain 1 - FAILED - Expected: not collection containing 1, But was: < 1 >
     1 should be 2 - FAILED - Expected: 2, But was: 1
     1 should be 1
-    1 should not be 1 - FAILED - Expected: not 1, But was: 1
+    1 should not be 1 - FAILED - Expected: not equal to 1, But was: 1
     1 should not be 2
     """" should not be null
     some object should not be null - FAILED - Expected: not null, But was: null
-    ninja should not be pirate
+    ninja should not be pirate - FAILED - Value cannot be null., Parameter name: source
 
 **** FAILURES ****
 
@@ -51,12 +51,15 @@ nspec. describe specifications. when creating specifications. 1 should be 2.
 Expected: 2, But was: 1
 
 nspec. describe specifications. when creating specifications. 1 should not be 1.
-Expected: not 1, But was: 1
+Expected: not equal to 1, But was: 1
 
 nspec. describe specifications. when creating specifications. some object should not be null.
 Expected: not null, But was: null
 
-11 Examples, 5 Failed, 0 Pending
+nspec. describe specifications. when creating specifications. ninja should not be pirate.
+Value cannot be null., Parameter name: source
+
+11 Examples, 6 Failed, 0 Pending
 ";
     public static int ExitCode = 1;
 }
