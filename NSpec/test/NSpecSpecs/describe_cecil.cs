@@ -1,6 +1,6 @@
 ﻿#if false
 
-// TODO NETCORE Mono.Cecil
+// NETCORE This will not be ported. No use for Mono.Cecil for time being.
 
 using System;
 using System.Linq;
