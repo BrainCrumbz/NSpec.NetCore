@@ -3,9 +3,8 @@ using NSpec;
 using NSpec.Domain;
 using NSpec.Domain.Formatters;
 using NUnit.Framework;
-using Rhino.Mocks;
-using System.Threading.Tasks;
 using System;
+using Moq;
 
 namespace NSpecSpecs.WhenRunningSpecs
 {
@@ -86,11 +85,11 @@ namespace NSpecSpecs.WhenRunningSpecs
     {
         protected void RunWithReflector(Type specClassType)
         {
-            IReflector reflector = MockRepository.GenerateMock<IReflector>();
+            Mock<IReflector> reflector = new Mock<IReflector>();
 
-            reflector.Stub(r => r.GetTypesFrom()).Return(new[] { specClassType });
+            reflector.Setup(r => r.GetTypesFrom()).Returns(new[] { specClassType });
 
-            var contextBuilder = new ContextBuilder(new SpecFinder(reflector), new DefaultConventions());
+            var contextBuilder = new ContextBuilder(new SpecFinder(reflector.Object), new DefaultConventions());
 
             classContext = contextBuilder.Contexts().First();
 

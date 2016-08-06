@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if false
+
+// TODO NETCORE Mono.Cecil
+
+using System;
 using System.Linq;
 using Mono.Cecil;
 using NUnit.Framework;
@@ -19,3 +23,4 @@ namespace NSpecSpecs
         }
     }
 }
+#endif

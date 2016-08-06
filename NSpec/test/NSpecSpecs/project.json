@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
 
   "buildOptions": {
@@ -11,16 +11,21 @@
 
   "dependencies": {
     "dotnet-test-nunit": "3.4.0-beta-1",
+    "Moq": "4.6.36-alpha",
     "NSpec": {
       "target": "project"
-    }
+    },
+    "NUnit": "3.4.1"
   },
 
   "testRunner": "nunit",
 
   "frameworks": {
     "netcoreapp1.0": {
-      "imports": "portable-net45+win8",
+      "imports": [
+        "netcoreapp1.0",
+        "portable-net45+win8"
+      ],
       "dependencies": {
         "Microsoft.NETCore.App": {
           "version": "1.0.0-*",
