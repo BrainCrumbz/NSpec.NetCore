@@ -1,6 +1,14 @@
 ﻿{
   "version": "1.0.0-*",
 
+  "buildOptions": {
+    "compile": {
+      "includeFiles": [
+        "../../SharedAssemblyInfo.cs"
+      ]
+    }
+  },
+
   "dependencies": {
     "dotnet-test-nunit": "3.4.0-beta-1",
     "NSpec": {
