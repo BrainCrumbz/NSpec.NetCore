@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if false
+
+// TODO NETCORE appsettings
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,3 +19,4 @@ namespace SampleSpecs.Bug
         }
     }
 }
+#endif

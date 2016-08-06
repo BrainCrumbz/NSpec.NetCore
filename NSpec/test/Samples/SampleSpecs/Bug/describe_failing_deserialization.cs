@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if false
+
+// TODO NETCORE binaryformatter
+
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using NSpec;
@@ -45,3 +49,4 @@ namespace SampleSpecs.Bug
         }
     }
 }
+#endif
