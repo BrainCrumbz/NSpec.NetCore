@@ -6,6 +6,7 @@ using NSpec.Domain;
 using NSpec.Domain.Formatters;
 using NUnit.Framework;
 using SampleSpecs.Bug;
+using System.Reflection;
 
 namespace NSpecSpecs
 {
@@ -84,7 +85,7 @@ namespace NSpecSpecs
             var runner = new ContextRunner(tagsFilter, consoleFormatter, false);
             runner.Run(builder.Contexts().Build());
 
-            var expectedString = ScrubTimes(ScrubStackTrace(ScrubNewLines(output.GetField("Output").GetValue(null) as string)));
+            var expectedString = ScrubTimes(ScrubStackTrace(ScrubNewLines(output.GetTypeInfo().GetField("Output").GetValue(null) as string)));
             var actualString = ScrubTimes(ScrubStackTrace(String.Join("\n", actual)).Trim());
             actualString.should_be(expectedString);
         }

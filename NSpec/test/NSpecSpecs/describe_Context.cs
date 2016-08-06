@@ -5,6 +5,7 @@ using NSpec.Domain;
 using NUnit.Framework;
 using NSpecSpecs;
 using NSpecSpecs.describe_RunningSpecs.Exceptions;
+using System.Reflection;
 
 namespace NSpecNUnit
 {
@@ -330,7 +331,7 @@ namespace NSpecNUnit
 
             classContext = new ClassContext(specType);
 
-            var methodInfo = specType.GetMethod("method_level_context");
+            var methodInfo = specType.GetTypeInfo().GetMethod("method_level_context");
 
             var methodContext = new MethodContext(methodInfo);
 
@@ -390,7 +391,7 @@ namespace NSpecNUnit
 
             classContext = new ClassContext(specType);
 
-            var methodInfo = specType.GetMethod("method_level_context");
+            var methodInfo = specType.GetTypeInfo().GetMethod("method_level_context");
 
             var methodContext = new MethodContext(methodInfo);
 
