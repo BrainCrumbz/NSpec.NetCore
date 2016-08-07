@@ -8,10 +8,6 @@ using NSpec.Domain.Formatters;
 
 namespace NSpecRunner
 {
-    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    XXXXXXXXXXXXXXXXXXXXXXXX Unload this project from solution, it cannot build under .NET Core XXXXXXXXXXXXXXXXXXXXXXXX 
-    XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
     class Program
     {
         [STAThread]
@@ -50,9 +46,7 @@ namespace NSpecRunner
 
                 var invocation = new RunnerInvocation(specDLL, argsTags, formatter, failFast);
 
-                var domain = new NSpecDomain(specDLL + ".config");
-
-                var failures = domain.Run(invocation, i => i.Run().Failures().Count(), specDLL);
+                var failures = invocation.Run().Failures().Count();
 
                 if (failures > 0) Environment.Exit(1);
             }
@@ -66,7 +60,7 @@ namespace NSpecRunner
 
         static IDictionary<string, string> GetFormatterOptions(string[] args)
         {
-            var formatterOptions = args.Where(s => s.StartsWith("--formatterOptions:", StringComparison.InvariantCultureIgnoreCase));
+            var formatterOptions = args.Where(s => s.StartsWith("--formatterOptions:", StringComparison.OrdinalIgnoreCase));
             return formatterOptions.Select(s =>
             {
                 var opt = s.Substring("--formatterOptions:".Length);
@@ -117,7 +111,7 @@ namespace NSpecRunner
                 return consoleFormatter;
             }
 
-            Assembly nspecAssembly = typeof(IFormatter).Assembly;
+            Assembly nspecAssembly = typeof(IFormatter).GetTypeInfo().Assembly;
 
             // Look for a class that implements IFormatter with the provided name
             var formatterType = nspecAssembly.GetTypes().FirstOrDefault(type =>
@@ -139,7 +133,7 @@ namespace NSpecRunner
 
         private static void ShowUsage()
         {
-            Console.WriteLine("VERSION: {0}".With(Assembly.GetExecutingAssembly().GetName().Version));
+            Console.WriteLine("VERSION: {0}".With(typeof(Program).GetTypeInfo().Assembly.GetName().Version));
             Console.WriteLine();
             Console.WriteLine("Example usage:");
             Console.WriteLine();

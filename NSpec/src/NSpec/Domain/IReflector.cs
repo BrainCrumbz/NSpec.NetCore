@@ -15,9 +15,10 @@ namespace NSpec.Domain
 
         public Type[] GetTypesFrom()
         {
-            var assemblyName = AssemblyLoadContext.GetAssemblyName(dll);
+            var context = AssemblyLoadContext.Default;
+            var assembly = context.LoadFromAssemblyPath(dll);
 
-            return Assembly.Load(assemblyName).GetTypes();
+            return assembly.GetTypes();
         }
 
         public Type[] GetTypesFrom(Assembly assembly)
