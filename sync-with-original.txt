@@ -1,7 +1,7 @@
 Latest commit merged from NSpec:
 
-commit 8511fefbdea642a18b15357d9f18385cb925d435
+commit 8e99e70b8625eef4a4d196276612a19949d1dcbd
 Author: Giuseppe Piscopo <g.piscopo@braincrumbz.com>
-Date:   Sat Aug 6 15:39:20 2016 +0200
+Date:   Sun Aug 7 12:07:06 2016 +0200
 
-    chore(nspecSpecs): delete obsolete file not included in project
+    refactor(nspecRunner): show usage from verbatim string
