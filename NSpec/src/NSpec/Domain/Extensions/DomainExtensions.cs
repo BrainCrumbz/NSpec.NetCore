@@ -84,10 +84,25 @@ namespace NSpec.Domain.Extensions
 
         public static bool IsAsync(this MethodInfo method)
         {
-            // Taken from: https://github.com/nunit/nunit/blob/master/src/NUnitFramework/framework/Internal/AsyncInvocationRegion.cs
+            // Inspired from: https://github.com/nunit/nunit/blob/master/src/NUnitFramework/framework/Internal/AsyncInvocationRegion.cs
 
-            return method.ReturnType.FullName.StartsWith(TaskTypeName) ||
-                   method.GetCustomAttributes(false).Any(attr => AsyncAttributeTypeName == attr.GetType().FullName);
+            return MethodReturnsTask(method) || MethodIsAsync(method);
+        }
+
+        private static bool MethodReturnsTask(MethodInfo method)
+        {
+            return method.ReturnType.FullName.StartsWith(TaskTypeName);
+        }
+
+        private static bool MethodIsAsync(MethodInfo method)
+        {
+            var attributes = method.GetCustomAttributes(false);
+
+            bool? hasAsyncAttribute = attributes?
+                .Any(attr => AsyncAttributeTypeName == attr.GetType().FullName);
+
+            return hasAsyncAttribute
+                ?? false;
         }
 
         public static bool IsAsync(this Action action)
