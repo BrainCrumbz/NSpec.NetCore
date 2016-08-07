@@ -5,6 +5,7 @@ using System.Reflection;
 using NSpec;
 using NSpec.Domain;
 using NSpec.Domain.Formatters;
+using System.IO;
 
 namespace NSpecRunner
 {
@@ -28,7 +29,6 @@ namespace NSpecRunner
                 var formatterOptions = GetFormatterOptions(args);
                 var formatter = FindFormatter(formatterClassName, formatterOptions);
 
-
                 args = RemoveOptionsAndSwitches(args);
 
                 if (args.Length > 1)
@@ -42,7 +42,7 @@ namespace NSpecRunner
                         argsTags = args[1];
                 }
 
-                var specDLL = args[0];
+                var specDLL = Path.GetFullPath(args[0]);
 
                 var invocation = new RunnerInvocation(specDLL, argsTags, formatter, failFast);
 
@@ -137,7 +137,11 @@ namespace NSpecRunner
             Console.WriteLine(@"
 Example usage:
 
+.NET Framework:
 nspecrunner path_to_spec_dll [classname]
+
+.NET Core:
+dotnet path_to\NSpecRunner.dll path_to_spec_dll [classname]
 
 The second parameter is optional. If supplied, only that specific test class will run.  Otherwise all spec classes in the dll will be run.
 
