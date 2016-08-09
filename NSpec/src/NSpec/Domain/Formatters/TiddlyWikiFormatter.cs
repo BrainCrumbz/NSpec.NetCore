@@ -1,10 +1,9 @@
-﻿using System;
+﻿using NSpec.Compatibility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
-using System.Web;
 
 namespace NSpec.Domain.Formatters
 {
@@ -96,7 +95,7 @@ namespace NSpec.Domain.Formatters
             if (e.Exception != null)
             {
                 output = String.Format("{0}&lt;&lt;markSpecAsFailed '{1}'&gt;&gt; &lt;&lt;showException 'error_{2}' '{3}''&gt;&gt;",
-                                       "*".Times(level), e.Spec, Guid.NewGuid(), HtmlEncoder.Default.Encode(e.Exception.ToString()));
+                                       "*".Times(level), e.Spec, Guid.NewGuid(), HtmlUtils.Encode(e.Exception.ToString()));
             }
             else if (e.Pending)
             {
