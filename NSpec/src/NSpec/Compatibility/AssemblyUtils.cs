@@ -11,8 +11,7 @@ namespace NSpec.Compatibility
 #if NETSTANDARD1_6
             var context = System.Runtime.Loader.AssemblyLoadContext.Default;
             assembly = context.LoadFromAssemblyPath(filePath);
-#endif
-#if NET45
+#else
             assembly = Assembly.LoadFrom(filePath);
 #endif
 

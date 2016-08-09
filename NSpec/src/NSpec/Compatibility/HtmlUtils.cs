@@ -8,8 +8,7 @@
 
 #if NETSTANDARD1_6
             encoded = System.Text.Encodings.Web.HtmlEncoder.Default.Encode(value);
-#endif
-#if NET45
+#else
             encoded = System.Web.HttpUtility.HtmlEncode(value);
 #endif
 

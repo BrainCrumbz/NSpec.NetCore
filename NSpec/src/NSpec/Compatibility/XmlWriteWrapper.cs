@@ -9,16 +9,14 @@ namespace NSpec.Compatibility
         {
 #if NETSTANDARD1_6
             Xml = XmlWriter.Create(sw);
-#endif
-#if NET45
+#else
             Xml = new XmlTextWriter(sw);
 #endif
         }
 
 #if NETSTANDARD1_6
         public XmlWriter Xml { get; private set; }
-#endif
-#if NET45
+#else
         public XmlTextWriter Xml { get; private set; }
 #endif
     }
