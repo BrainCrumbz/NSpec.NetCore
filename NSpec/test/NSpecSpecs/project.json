@@ -15,7 +15,6 @@
     "NSpec": {
       "target": "project"
     },
-    "NUnit": "3.4.1",
     "SampleSpecs": {
       "target": "project"
     },
@@ -38,6 +37,8 @@
           "type": "platform"
         }
       }
+    },
+    "net452": {
     }
   }
 }
