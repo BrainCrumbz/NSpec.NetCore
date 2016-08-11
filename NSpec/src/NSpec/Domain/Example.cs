@@ -1,6 +1,5 @@
 ﻿using NSpec.Domain.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NSpec.Domain
@@ -18,7 +17,7 @@ namespace NSpec.Domain
             action();
         }
 
-        public override void Skip(nspec nspec)
+        public override void RunPending(nspec nspec)
         {
             // don't run example body, as this example is being skipped;
             // just check for consistency in passed example body

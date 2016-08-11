@@ -1,6 +1,7 @@
 ﻿using System;
 using NSpec;
 using NUnit.Framework;
+using NSpecSpecs.describe_RunningSpecs.Exceptions;
 
 namespace NSpecSpecs.WhenRunningSpecs
 {
@@ -20,7 +21,7 @@ namespace NSpecSpecs.WhenRunningSpecs
 
             void it_fails()
             {
-                throw new Exception();
+                throw new KnownException();
             }
         }
 
@@ -34,6 +35,16 @@ namespace NSpecSpecs.WhenRunningSpecs
             //ex.HasRun.should_be_false(); //broken after making init and run happen all at once
 
             ex.HasRun.should_be_true();
+        }
+
+        [Test]
+        public void duration_is_set_after_run()
+        {
+            Run(typeof(SpecClass));
+
+            var ex = TheExample("it changes status after run");
+
+            ex.Duration.should_be_greater_than(TimeSpan.Zero);
         }
 
         [Test]

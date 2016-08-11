@@ -1,7 +1,4 @@
 Latest commit merged from NSpec:
 
-commit 8e99e70b8625eef4a4d196276612a19949d1dcbd
-Author: Giuseppe Piscopo <g.piscopo@braincrumbz.com>
-Date:   Sun Aug 7 12:07:06 2016 +0200
-
-    refactor(nspecRunner): show usage from verbatim string
+fe65b4f8ab49d49f4f27e95f4efaed62f8857aef
+style(nspec): format code in Formatters and Context

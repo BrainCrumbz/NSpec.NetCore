@@ -12,14 +12,14 @@ namespace NSpecSpecs.describe_RunningSpecs.Exceptions
     [Category("Async")]
     public class when_async_before_contains_exception : when_running_specs
     {
-        class SpecClass : nspec
+        class AsyncBeforeThrowsSpecClass : nspec
         {
             void method_level_context()
             {
-                beforeAsync = async () => 
-                { 
+                beforeAsync = async () =>
+                {
                     await Task.Delay(0);
-                    throw new BeforeException(); 
+                    throw new BeforeException();
                 };
 
                 it["should fail this example because of beforeAsync"] = () => "1".should_be("1");
@@ -59,7 +59,7 @@ namespace NSpecSpecs.describe_RunningSpecs.Exceptions
         [SetUp]
         public void setup()
         {
-            Run(typeof(SpecClass));
+            Run(typeof(AsyncBeforeThrowsSpecClass));
         }
 
         [Test]

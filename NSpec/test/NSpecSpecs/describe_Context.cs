@@ -7,7 +7,7 @@ using NSpecSpecs;
 using NSpecSpecs.describe_RunningSpecs.Exceptions;
 using System.Reflection;
 
-namespace NSpecNUnit
+namespace NSpecSpecs
 {
     [TestFixture]
     [Category("Context")]
@@ -29,7 +29,7 @@ namespace NSpecNUnit
         {
             var child = new Context("child");
 
-            child.AddExample(new ExampleBaseWrap { Exception = new Exception() });
+            child.AddExample(new ExampleBaseWrap { Exception = new KnownException() });
 
             var parent = new Context("parent");
 
@@ -39,27 +39,27 @@ namespace NSpecNUnit
         }
     }
 
-    public class child_act : parent_act
-    {
-        void act_each()
-        {
-            actResult += "child";
-        }
-    }
-
-    public class parent_act : nspec
-    {
-        public string actResult;
-        void act_each()
-        {
-            actResult = "parent";
-        }
-    }
-
     [TestFixture]
     [Category("Context")]
     public class when_creating_act_contexts_for_derived_class
     {
+        public class child_act : parent_act
+        {
+            void act_each()
+            {
+                actResult += "child";
+            }
+        }
+
+        public class parent_act : nspec
+        {
+            public string actResult;
+            void act_each()
+            {
+                actResult = "parent";
+            }
+        }
+
         [SetUp]
         public void setup()
         {
@@ -87,27 +87,27 @@ namespace NSpecNUnit
         child_act instance;
     }
 
-    public class child_before : parent_before
-    {
-        void before_each()
-        {
-            beforeResult += "child";
-        }
-    }
-
-    public class parent_before : nspec
-    {
-        public string beforeResult;
-        void before_each()
-        {
-            beforeResult = "parent";
-        }
-    }
-
     [TestFixture]
     [Category("Context")]
     public class when_creating_contexts_for_derived_classes
     {
+        public class child_before : parent_before
+        {
+            void before_each()
+            {
+                beforeResult += "child";
+            }
+        }
+
+        public class parent_before : nspec
+        {
+            public string beforeResult;
+            void before_each()
+            {
+                beforeResult = "parent";
+            }
+        }
+
         [SetUp]
         public void setup()
         {
@@ -145,6 +145,23 @@ namespace NSpecNUnit
     [Category("Context")]
     public class when_creating_before_contexts_for_derived_class
     {
+        public class child_before : parent_before
+        {
+            void before_each()
+            {
+                beforeResult += "child";
+            }
+        }
+
+        public class parent_before : nspec
+        {
+            public string beforeResult;
+            void before_each()
+            {
+                beforeResult = "parent";
+            }
+        }
+
         [SetUp]
         public void setup()
         {
@@ -172,7 +189,7 @@ namespace NSpecNUnit
         child_before instance;
     }
 
-    public class trimming_contexts
+    public abstract class trimming_contexts
     {
         protected Context rootContext;
 
@@ -298,7 +315,7 @@ namespace NSpecNUnit
     [Category("BareCode")]
     public class when_bare_code_throws_in_class_context
     {
-        public class SpecClass : nspec
+        public class CtorThrowsSpecClass : nspec
         {
             readonly object someTestObject = DoSomethingThatThrows();
 
@@ -320,14 +337,14 @@ namespace NSpecNUnit
 
             public static Exception SpecException;
 
-            public static string TypeFullName = typeof(SpecClass).FullName;
+            public static string TypeFullName = typeof(CtorThrowsSpecClass).FullName;
             public static string ExceptionTypeName = typeof(KnownException).Name;
         }
 
         [SetUp]
         public void setup()
         {
-            var specType = typeof(SpecClass);
+            var specType = typeof(CtorThrowsSpecClass);
 
             classContext = new ClassContext(specType);
 
@@ -351,7 +368,7 @@ namespace NSpecNUnit
 
             string actual = classContext.AllExamples().Single().FullName();
 
-            actual.should_contain(SpecClass.ExceptionTypeName);
+            actual.should_contain(CtorThrowsSpecClass.ExceptionTypeName);
         }
 
         ClassContext classContext;
@@ -362,7 +379,7 @@ namespace NSpecNUnit
     [Category("BareCode")]
     public class when_bare_code_throws_in_nested_context
     {
-        public class SpecClass : nspec
+        public class NestedContextThrowsSpecClass : nspec
         {
             public void method_level_context()
             {
@@ -387,7 +404,7 @@ namespace NSpecNUnit
         [SetUp]
         public void setup()
         {
-            var specType = typeof(SpecClass);
+            var specType = typeof(NestedContextThrowsSpecClass);
 
             classContext = new ClassContext(specType);
 
@@ -411,7 +428,7 @@ namespace NSpecNUnit
 
             string actual = classContext.AllExamples().Single().FullName();
 
-            actual.should_contain(SpecClass.ExceptionTypeName);
+            actual.should_contain(NestedContextThrowsSpecClass.ExceptionTypeName);
         }
 
         ClassContext classContext;

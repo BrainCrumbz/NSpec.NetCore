@@ -11,7 +11,7 @@ namespace NSpecSpecs.describe_RunningSpecs.Exceptions
     [Category("RunningSpecs")]
     public class when_method_level_before_all_contains_exception : when_running_specs
     {
-        class SpecClass : nspec
+        class MethodBeforeAllThrowsSpecClass : nspec
         {
             void before_all()
             {
@@ -32,25 +32,23 @@ namespace NSpecSpecs.describe_RunningSpecs.Exceptions
         [SetUp]
         public void setup()
         {
-            Run(typeof(SpecClass));
+            Run(typeof(MethodBeforeAllThrowsSpecClass));
         }
 
         [Test]
         public void the_first_example_should_fail_with_framework_exception()
         {
-            classContext.AllExamples()
-                        .First()
-                        .Exception
-                        .should_cast_to<ExampleFailureException>();
+            var example = classContext.AllExamples().First();
+
+            example.Exception.should_cast_to<ExampleFailureException>();
         }
 
         [Test]
         public void the_second_example_should_fail_with_framework_exception()
         {
-            classContext.AllExamples()
-                        .Last()
-                        .Exception
-                        .should_cast_to<ExampleFailureException>();
+            var example = classContext.AllExamples().Last();
+
+            example.Exception.should_cast_to<ExampleFailureException>();
         }
 
         class BeforeAllException : Exception { }

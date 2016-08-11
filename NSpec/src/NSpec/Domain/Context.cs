@@ -3,9 +3,9 @@ using NSpec.Domain.Formatters;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace NSpec.Domain
@@ -242,7 +242,17 @@ namespace NSpec.Domain
 
             bool runBeforeAfterAll = AnyUnfilteredExampleInSubTree(nspec);
 
+            var stringWriter = new StringWriter();
+            var stdout = Console.Out;
+            var stderr = Console.Error;
+            Console.SetOut(stringWriter);
+            Console.SetError(stringWriter);
+
             if (runBeforeAfterAll) RunAndHandleException(RunBeforeAll, nspec, ref ExceptionBeforeAll);
+
+            Console.SetOut(stdout);
+            Console.SetError(stderr);
+            this.CapturedOutput = stringWriter.ToString();
 
             // intentionally using for loop to prevent collection was modified error in sample specs
             for (int i = 0; i < Examples.Count; i++)
@@ -251,7 +261,17 @@ namespace NSpec.Domain
 
                 if (failFast && example.Context.HasAnyFailures()) return;
 
+                stringWriter = new StringWriter();
+                stdout = Console.Out;
+                stderr = Console.Error;
+                Console.SetOut(stringWriter);
+                Console.SetError(stringWriter);
+
                 Exercise(example, nspec);
+
+                Console.SetOut(stdout);
+                Console.SetError(stderr);
+                example.CapturedOutput = stringWriter.ToString();
 
                 if (example.HasRun && !alreadyWritten)
                 {
@@ -266,6 +286,8 @@ namespace NSpec.Domain
 
             if (runBeforeAfterAll) RunAndHandleException(RunAfterAll, nspec, ref ExceptionAfterAll);
         }
+
+        public string CapturedOutput { get; set; }
 
         /// <summary>
         /// Test execution happens in two phases: this is the second phase.
@@ -345,13 +367,19 @@ namespace NSpec.Domain
         {
             if (example.ShouldSkip(nspec.tagsFilter))
             {
-                RunAndHandleException(example.Skip, nspec, ref example.Exception);
+                return;
+            }
+
+            example.HasRun = true;
+
+            if (example.Pending)
+            {
+                RunAndHandleException(example.RunPending, nspec, ref example.Exception);
 
                 return;
             }
 
-            var sw = new Stopwatch();
-            sw.Start();
+            var stopWatch = example.StartTiming();
 
             RunAndHandleException(RunBefores, nspec, ref Exception);
 
@@ -361,8 +389,7 @@ namespace NSpec.Domain
 
             bool exceptionThrownInAfters = RunAndHandleException(RunAfters, nspec, ref Exception);
 
-            sw.Stop();
-            example.Duration = sw.Elapsed;
+            example.StopTiming(stopWatch);
 
             // when an expected exception is thrown and is set to be cleared by 'expect<>',
             // a subsequent exception thrown in 'after' hooks would go unnoticed, so do not clear in this case

@@ -10,7 +10,8 @@ namespace NSpec.Domain.Formatters
     {
         public Action<string> WriteLineDelegate { get; set; }
 
-        public ConsoleFormatter() {
+        public ConsoleFormatter()
+        {
             WriteLineDelegate = Console.WriteLine;
         }
 
@@ -29,6 +30,15 @@ namespace NSpec.Domain.Formatters
             if (context.Level == 1) WriteLineDelegate("");
 
             WriteLineDelegate(indent.Times(context.Level - 1) + context.Name);
+
+            if (!string.IsNullOrEmpty(context.CapturedOutput))
+            {
+                WriteLineDelegate(indent.Times(context.Level - 1) + "//Console output");
+                foreach (var l in context.CapturedOutput.TrimEnd('\n').Split('\n'))
+                {
+                    WriteLineDelegate(indent.Times(context.Level - 1) + l);
+                }
+            }
         }
 
         public void Write(ExampleBase e, int level)
@@ -38,11 +48,13 @@ namespace NSpec.Domain.Formatters
             var failureMessage = noFailure ? "" : " - FAILED - {0}".With(e.Exception.CleanMessage());
 
             var whiteSpace = indent.Times(level);
+
             string duration;
             if (e.Duration.TotalMinutes > 1)
             {
                 duration = string.Format(" ({0}min {1}s)", e.Duration.Minutes, e.Duration.Seconds);
-            }else if (e.Duration.TotalSeconds > 1)
+            }
+            else if (e.Duration.TotalSeconds > 1)
             {
                 duration = string.Format(" ({0:F0}s)", e.Duration.TotalSeconds);
             }
@@ -50,7 +62,7 @@ namespace NSpec.Domain.Formatters
             {
                 duration = string.Format(" ({0:F0}ms)", e.Duration.TotalMilliseconds);
             }
-                                                            
+
             var result = e.Pending ? whiteSpace + e.Spec + " - PENDING" : whiteSpace + e.Spec + duration + failureMessage;
 
             Console.ForegroundColor = ConsoleColor.Green;
@@ -62,6 +74,15 @@ namespace NSpec.Domain.Formatters
             WriteLineDelegate(result);
 
             Console.ForegroundColor = ConsoleColor.White;
+
+            if (!string.IsNullOrWhiteSpace(e.CapturedOutput))
+            {
+                WriteLineDelegate(indent.Times(level + 1) + "//Console output");
+                foreach (var line in e.CapturedOutput.TrimEnd('\n').Split('\n'))
+                {
+                    WriteLineDelegate(indent.Times(level + 1) + line);
+                }
+            }
         }
 
         public string FailureSummary(ContextCollection contexts)
@@ -125,13 +146,12 @@ namespace NSpec.Domain.Formatters
 
         string indent = "  ";
 
-        string[] internalNameSpaces =
-            new[]
-                {
-                    "NSpec.Domain",
-                    "NSpec.AssertionExtensions",
-                    "NUnit.Framework",
-                    "NSpec.Extensions"
-                };
+        string[] internalNameSpaces = new[]
+        {
+            "NSpec.Domain",
+            "NSpec.AssertionExtensions",
+            "NUnit.Framework",
+            "NSpec.Extensions"
+        };
     }
 }
