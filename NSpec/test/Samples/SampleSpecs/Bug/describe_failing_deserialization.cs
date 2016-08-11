@@ -1,6 +1,4 @@
-﻿#if false
-
-// TODO NETCORE binaryformatter
+﻿#if !NETSTANDARD1_6
 
 using System;
 using System.IO;
