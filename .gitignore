@@ -251,3 +251,18 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# NSpec project custom ignores
+*.swp
+*.bak
+*.webinfo
+*.trx
+*.patch
+*.zip
+**/*crunchsolution.cache*
+**/*.ncrunchproject
+**/*.ncrunchsolution
+Gemfile.lock
+*.#*
+**/*~HEAD
+TAGS
